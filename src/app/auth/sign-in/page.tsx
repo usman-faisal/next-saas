@@ -46,8 +46,10 @@ function SignInDefault() {
       return;
     }
     const data = await loginUser();
+    
     if (data) {
       localStorage.setItem('user', JSON.stringify(data.user));
+      localStorage.setItem('session', JSON.stringify(data.session));
       router.push('/home');
     }
   };
@@ -116,7 +118,7 @@ function SignInDefault() {
                 Not registered yet?
               </span>
               <a
-                href="/auth/sign-up/default"
+                href="/auth/sign-up"
                 className="ml-1 text-sm font-medium text-bluePrimary hover:text-brand-600 dark:text-white"
               >
                 Create an account

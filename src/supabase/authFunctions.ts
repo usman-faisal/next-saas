@@ -7,10 +7,6 @@ const signupUser = async (email, password, meta_data) => {
     password: password,
     options: {
       data: {
-        // name: meta_data.name,
-        // profile_picture: meta_data.profile_picture,
-        // age: meta_data.age,
-        // phone_number: meta_data.phone_number,
         ...meta_data,
       },
     },
