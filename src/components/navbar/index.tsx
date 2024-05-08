@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Dropdown from 'components/dropdown';
 import { FiAlignJustify } from 'react-icons/fi';
 import NavLink from 'components/link/NavLink';
-import navbarimage from '/public/img/layout/Navbar.png';
 import { FiSearch } from 'react-icons/fi';
 import { RiMoonFill, RiSunFill } from 'react-icons/ri';
 // import { RiMoonFill, RiSunFill } from 'react-icons/ri';
@@ -13,25 +12,36 @@ import {
 } from 'react-icons/io';
 import avatar from '/public/img/avatars/avatar4.png';
 import Image from 'next/image';
-import { User } from 'types/interfaces';
 import useAuthStore from 'store/authStore';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 
 const Navbar = (props: {
   onOpenSidenav: () => void;
   brandText: string;
   secondary?: boolean | string;
   [x: string]: any;
-  user: User;
 }) => {
-  const { onOpenSidenav, brandText, mini, hovered, user } = props;
+  const { onOpenSidenav, brandText } = props;
+
+  const router = useRouter();
   const [darkmode, setDarkmode] = React.useState(
     document.body.classList.contains('dark'),
   );
   const authStore = useAuthStore();
+  const [user, setUser] = React.useState(null);
+  useEffect(() => {
+    (async () => {
+      try {
+        const user = await authStore.getUserProfile();
+        setUser(user);
+      } catch (e) {
+        console.log(e);
+      }
+    })();
+  }, []);
   async function handleLogout() {
     await authStore.logout();
-    // redirect to /auth/sign-in
+    router.push('/auth/sign-in');
   }
   return (
     <nav className="sticky top-4 z-40 flex flex-row flex-wrap items-center justify-between rounded-xl bg-white/10 p-2 backdrop-blur-xl dark:bg-[#0b14374d]">
@@ -133,7 +143,7 @@ const Navbar = (props: {
               width="2"
               height="20"
               className="h-10 w-10 rounded-full"
-              src={user?.avatar}
+              src={user?.avatar ?? avatar}
               alt={user?.name || 'N/A'}
             />
           }
@@ -143,7 +153,7 @@ const Navbar = (props: {
             <div className="ml-4 mt-3">
               <div className="flex items-center gap-2">
                 <p className="text-sm font-bold text-navy-700 dark:text-white">
-                  👋 Hey, {user?.name || 'N/A'}
+                  👋 Hey, {user?.name ?? 'N/A'}
                 </p>{' '}
               </div>
             </div>

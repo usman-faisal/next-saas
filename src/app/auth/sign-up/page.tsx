@@ -2,7 +2,7 @@
 
 import Default from 'components/auth/variants/DefaultAuthLayout';
 import InputField from 'components/fields/InputField';
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { signupUser } from 'supabase/authFunctions';
 
@@ -21,6 +21,8 @@ function SignUp() {
     password: '',
     rePassword: '',
   });
+  const [error, setError] = useState('');
+  const router = useRouter();
   const handleInputChange = (event: any) => {
     const { name, value } = event.target;
     setFormData({
@@ -34,8 +36,12 @@ function SignUp() {
     const valid = await validateForm();
     if (valid) {
       const { email, password, rePassword, ...meta } = formData;
-      const { data, error } = await signupUser(email, password, meta);
-      if (!error) redirect('/auth/sign-in');
+      const { error } = await signupUser(email, password, meta);
+
+      if (!error) router.push('/home/dashboard');
+      else {
+        setError(error.message);
+      }
     }
   };
 
@@ -126,6 +132,9 @@ function SignUp() {
                   onChange={handleInputChange}
                   state={formErrors.rePassword ? 'error' : ''}
                 />
+              </div>
+              <div className="mb-5">
+                <p className="text-sm text-red-500">{error}</p>
               </div>
               <div className="mb-3">
                 <button

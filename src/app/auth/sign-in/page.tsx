@@ -1,7 +1,6 @@
 'use client';
 import InputField from 'components/fields/InputField';
 import Default from 'components/auth/variants/DefaultAuthLayout';
-import { FcGoogle } from 'react-icons/fc';
 import Checkbox from 'components/checkbox';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -24,7 +23,7 @@ function SignInDefault() {
   };
 
   const loginUser = async () => {
-    await signInUser(email, password);
+    return await signInUser(email, password);
   };
 
   const handleSubmit = async () => {
@@ -37,7 +36,12 @@ function SignInDefault() {
       setError('Invalid Credientials');
       return;
     }
-    await loginUser();
+    const { error } = await loginUser();
+    if (error) {
+      setError(error.message);
+    } else {
+      router.push('/home/dashboard');
+    }
   };
 
   return (
