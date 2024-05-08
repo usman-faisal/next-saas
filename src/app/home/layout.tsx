@@ -1,7 +1,7 @@
 'use client';
 // Layout components
 import { usePathname, useRouter } from 'next/navigation';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import routes from 'routes';
 import {
   getActiveNavbar,
@@ -14,20 +14,26 @@ import Navbar from 'components/navbar';
 import Sidebar from 'components/sidebar';
 import Footer from 'components/footer/Footer';
 import { getUser } from 'utils/auth';
+import useAuthStore from 'store/authStore';
 export default function Admin({ children }: { children: React.ReactNode }) {
-  // states and functions
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
-  const router = useRouter();
   if (isWindowAvailable()) document.documentElement.dir = 'ltr';
+  const [loading, setLoading] = useState(true);
 
-  const currentUser = getUser();
-  if (!currentUser) {
-    router.push('/auth/sign-in');
-  }
-
+  const authStore = useAuthStore();
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    (async () => {
+      const user = await authStore.getUser();
+      setUser(user);
+      setLoading(false);
+    })();
+  }, []);
+  if (loading) return <p>Loading</p>;
+  if (!user) return <p>Not authorized</p>;
   return (
-    currentUser && (
+    user && (
       <div className="flex h-full w-full bg-background-100 dark:bg-background-900">
         <Sidebar
           routes={routes}
@@ -48,7 +54,7 @@ export default function Admin({ children }: { children: React.ReactNode }) {
                 onOpenSidenav={() => setOpen(!open)}
                 brandText={getActiveRoute(routes, pathname)}
                 secondary={getActiveNavbar(routes, pathname)}
-                user={currentUser}
+                user={user}
               />
               <div
                 className={`mx-auto p-2 !pt-[10px] md:p-2 ${

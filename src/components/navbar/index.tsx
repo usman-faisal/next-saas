@@ -14,6 +14,8 @@ import {
 import avatar from '/public/img/avatars/avatar4.png';
 import Image from 'next/image';
 import { User } from 'types/interfaces';
+import useAuthStore from 'store/authStore';
+import { useNavigate } from 'react-router-dom';
 
 const Navbar = (props: {
   onOpenSidenav: () => void;
@@ -26,6 +28,11 @@ const Navbar = (props: {
   const [darkmode, setDarkmode] = React.useState(
     document.body.classList.contains('dark'),
   );
+  const authStore = useAuthStore();
+  async function handleLogout() {
+    await authStore.logout();
+    // redirect to /auth/sign-in
+  }
   return (
     <nav className="sticky top-4 z-40 flex flex-row flex-wrap items-center justify-between rounded-xl bg-white/10 p-2 backdrop-blur-xl dark:bg-[#0b14374d]">
       <div className="ml-[6px]">
@@ -143,12 +150,12 @@ const Navbar = (props: {
             <div className="mt-3 h-px w-full bg-gray-200 dark:bg-white/20 " />
 
             <div className="ml-4 mt-3 flex flex-col">
-              <a
-                href=""
+              <button
+                onClick={handleLogout}
                 className="mt-3 text-sm font-medium text-red-500 hover:text-red-500"
               >
                 Log Out
-              </a>
+              </button>
             </div>
           </div>
         </Dropdown>

@@ -24,15 +24,7 @@ function SignInDefault() {
   };
 
   const loginUser = async () => {
-    const { error, data } = await signInUser(email, password);
-    alert(JSON.stringify(error));
-    if (error) {
-      setError(error.message);
-      return null;
-    } else {
-      alert(JSON.stringify(data));
-      return data;
-    }
+    await signInUser(email, password);
   };
 
   const handleSubmit = async () => {
@@ -45,13 +37,7 @@ function SignInDefault() {
       setError('Invalid Credientials');
       return;
     }
-    const data = await loginUser();
-    
-    if (data) {
-      localStorage.setItem('user', JSON.stringify(data.user));
-      localStorage.setItem('session', JSON.stringify(data.session));
-      router.push('/home');
-    }
+    await loginUser();
   };
 
   return (
