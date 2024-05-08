@@ -1,5 +1,5 @@
 export interface User {
-  id: number;
+  id: string;
   name: string;
   avatar: string;
 }
@@ -22,4 +22,13 @@ export interface Chat {
   message: string;
   sender: string;
   inbox: string;
+}
+
+export interface UserForm {
+  institution: string;
+  location: string;
+  specialty: string;
+  year: string;
+  id?: string;
+  user?: string;
 }

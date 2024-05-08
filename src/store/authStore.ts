@@ -3,7 +3,7 @@ import supabase from 'supabase';
 import { Profile } from 'types/types';
 import { create } from 'zustand';
 
-interface useAuthStore {
+interface AuthStore {
   user?: User | null;
   getUser: () => Promise<User | null>;
   logout: () => Promise<void>;
@@ -11,7 +11,7 @@ interface useAuthStore {
   getUserProfile: () => Promise<Profile>;
 }
 
-const useAuthStore = create<useAuthStore>((set) => ({
+const useAuthStore = create<AuthStore>((set) => ({
   user: null,
   userProfile: null,
   getUser: async () => {

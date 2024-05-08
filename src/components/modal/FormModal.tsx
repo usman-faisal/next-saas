@@ -7,20 +7,21 @@ interface FormModal {
   open: boolean;
   setOpen: any;
   cancelButtonRef: any;
+  onFormSubmit: (formState: any) => {};
 }
 
-const FormModal: React.FC<FormModal> = ({ open, setOpen, cancelButtonRef }) => {
+const FormModal: React.FC<FormModal> = ({ open, setOpen, cancelButtonRef, onFormSubmit }) => {
   const [formData, setFormData] = useState({
     institution: '',
     location: '',
     specialty: '',
-    yearOfEducation: '',
+    year: '',
   });
   const [formErrors, setFormErrors] = useState({
     institution: '',
     location: '',
     specialty: '',
-    yearOfEducation: '',
+    year: '',
   });
 
   const handleInputChange = (event: any) => {
@@ -35,8 +36,7 @@ const FormModal: React.FC<FormModal> = ({ open, setOpen, cancelButtonRef }) => {
     event.preventDefault();
     const valid = await validateForm();
     if (valid) {
-      console.log(formData);
-      setOpen(false);
+      onFormSubmit(formData);
     }
   };
 
@@ -74,7 +74,7 @@ const FormModal: React.FC<FormModal> = ({ open, setOpen, cancelButtonRef }) => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+          <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity dark:bg-navy-700 dark:bg-opacity-75" />
         </Transition.Child>
 
         <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
@@ -89,7 +89,7 @@ const FormModal: React.FC<FormModal> = ({ open, setOpen, cancelButtonRef }) => {
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
               <Dialog.Panel
-                className={`relative w-[500px] transform  overflow-hidden rounded-lg bg-white p-8 text-left shadow-xl transition-all`}
+                className={`relative w-[500px] transform  overflow-hidden rounded-lg bg-white p-8 text-left shadow-xl transition-all dark:bg-navy-700`}
               >
                 <form onSubmit={handleSubmit}>
                   <div className="mb-5">
@@ -127,13 +127,13 @@ const FormModal: React.FC<FormModal> = ({ open, setOpen, cancelButtonRef }) => {
                   </div>
                   <div className="mb-5">
                     <InputField
-                      id="yearOfEducation"
-                      label="YearOfEducation"
+                      id="year"
+                      label="Year Of Education"
                       type="text"
-                      name="yearOfEducation"
+                      name="year"
                       placeholder="Enter your year of education"
                       onChange={handleInputChange}
-                      state={formErrors.yearOfEducation ? 'error' : ''}
+                      state={formErrors.year ? 'error' : ''}
                     />
                   </div>
                   <div className="mb-3">

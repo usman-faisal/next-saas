@@ -1,31 +1,46 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import Image from 'next/image';
 
 // COMPONENTS
 import Card from 'components/card';
 
 // ICONS
-import { FiSearch } from 'react-icons/fi';
-import { IoIosArrowDown } from 'react-icons/io';
-import Filter from 'components/filter';
-import { signupUser } from 'supabase/authFunctions';
-import { redirect } from 'next/navigation';
-import InputField from 'components/fields/InputField';
 import FormModal from 'components/modal/FormModal';
+import FormCard from 'components/card/FormCard';
+import { createForm } from 'supabase/dbFunctions';
+import { UserForm } from 'types/interfaces';
+import useAuthStore from 'store/authStore';
+import useFormStore from 'store/formStore';
 
 const Clients = () => {
-  const [forms, setForms] = useState([
-    {
-      institution: 'Test',
-      location: 'Karaachi',
-      specialty: 'Special',
-      year: 2009,
-    },
-  ]);
+  const authStore = useAuthStore();
+  const formStore = useFormStore();
+  const [forms, setForms] = useState([]);
   const [open, setOpen] = useState(false);
   const cancelButtonRef = useRef(null);
+
+  const onFormSubmit = async (formData: UserForm) => {
+    const user = authStore.user;
+    const { error, data } = await createForm(formData, user);
+    formStore.addForm(data[0]);
+    if (error) {
+      alert('Failed to submit form');
+    }
+    setOpen(false);
+  };
+  useEffect(() => {
+    const fetchForms = async () => {
+      if (formStore.userForms.length === 0) {
+        const forms = await formStore.getForms(authStore.user.id);
+        setForms(forms);
+      } else setForms(formStore.userForms);
+    };
+    fetchForms();
+  }, []);
+  useEffect(() => {
+    if (formStore.userForms?.length > 0) setForms(formStore.userForms);
+  }, [formStore.userForms]);
 
   return (
     <div>
@@ -40,13 +55,15 @@ const Clients = () => {
             Add New Form
           </button>
         </div>
-        {/* Form Cards */}
-        {/* <Card extra=" bg-[#] p-4 mt-4"></Card> */}
+        {forms.map((form, i) => (
+          <FormCard data={form} key={i} />
+        ))}
       </Card>
       <FormModal
         open={open}
         setOpen={setOpen}
         cancelButtonRef={cancelButtonRef}
+        onFormSubmit={onFormSubmit}
       />
     </div>
   );
