@@ -5,12 +5,14 @@ import Checkbox from 'components/checkbox';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { signInUser } from 'supabase/authFunctions';
+import useAuthStore from 'store/authStore';
 
 function SignInDefault() {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const authStore = useAuthStore();
 
   const handleEmailChange = (event) => {
     setError('');
@@ -23,7 +25,11 @@ function SignInDefault() {
   };
 
   const loginUser = async () => {
-    return await signInUser(email, password);
+    const user = await signInUser(email, password);
+    await authStore.getUser();
+    const plan = await authStore.getUserPlan();
+    alert(plan);
+    return user;
   };
 
   const handleSubmit = async () => {
