@@ -1,8 +1,8 @@
-import supabase from "./index";
+import supabase from './supabaseClient';
 
 const signupUser = async (email, password, meta_data) => {
   //  { data, error }
-  return await supabase.auth.signUp({
+  return await supabase().auth.signUp({
     email: email,
     password: password,
     options: {
@@ -14,33 +14,33 @@ const signupUser = async (email, password, meta_data) => {
 };
 
 const signInUser = async (email, password) => {
-  return await supabase.auth.signInWithPassword({
+  return await supabase().auth.signInWithPassword({
     email: email,
     password: password,
   });
 };
 
 const signInUserGoogle = async () => {
-  return await supabase.auth.signInWithOAuth({
-    provider: "google",
+  return await supabase().auth.signInWithOAuth({
+    provider: 'google',
   });
 };
 
 const signInUserMicrosoft = async () => {
-  return await supabase.auth.signInWithOAuth({
-    provider: "azure",
+  return await supabase().auth.signInWithOAuth({
+    provider: 'azure',
     options: {
-      scopes: "email",
+      scopes: 'email',
     },
   });
 };
 
 const retreiveUser = async () => {
-  return await supabase.auth.getSession();
+  return await supabase().auth.getSession();
 };
 
 const signOutUser = async () => {
-  return await supabase.auth.signOut();
+  return await supabase().auth.signOut();
 };
 
 export {

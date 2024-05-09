@@ -33,6 +33,7 @@ const Navbar = (props: {
     (async () => {
       try {
         const user = await authStore.getUserProfile();
+        console.log(user);
         setUser(user);
       } catch (e) {
         console.log(e);

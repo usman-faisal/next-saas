@@ -1,4 +1,4 @@
-import supabase from 'supabase';
+import supabase from '../supabase/supabaseClient';
 import { UserForm } from 'types/interfaces';
 import { create } from 'zustand';
 
@@ -12,7 +12,7 @@ const useFormStore = create<FormStore>((set) => ({
   userForm: null,
   setForm: (form) => set({ userForm: form }),
   getForm: async (userId) => {
-    const { data, error } = await supabase
+    const { data, error } = await supabase()
       .from('userForm')
       .select('*')
       .eq('user', userId);

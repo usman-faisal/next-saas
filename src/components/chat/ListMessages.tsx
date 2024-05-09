@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import useAuthStore from 'store/authStore';
 import useChatStore from 'store/chatStore';
-import supabase from 'supabase';
+import supabase from '../../supabase/supabaseClient';
 
 export default function ListMessages() {
   const messages = useChatStore((state) => state.messages);
@@ -15,7 +15,7 @@ export default function ListMessages() {
     (async () => {
       const user = await auth.getUser();
       console.log(user);
-      const { data } = await supabase
+      const { data } = await supabase()
         .from('messages')
         .select('*')
         .eq('inbox', activeInbox)
@@ -23,14 +23,14 @@ export default function ListMessages() {
       console.log(data);
       data && useChatStore.setState({ messages: data.reverse() });
 
-      channel = supabase
+      channel = supabase()
         .channel('chat-room')
         .on(
           'postgres_changes',
           { event: 'INSERT', schema: 'public', table: 'messages' },
           async (payload) => {
             console.log(payload, 'ljsdjlkfsdkljjklds');
-            const { data } = await supabase
+            const { data } = await supabase()
               .from('messages')
               .select('*')
               .eq('inbox', activeInbox)

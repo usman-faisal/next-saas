@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import useAuthStore from 'store/authStore';
 import useChatStore from 'store/chatStore';
-import supabase from 'supabase';
+import supabase from '../../supabase/supabaseClient';
 
 export default function ListInbox() {
   const user = useAuthStore((state) => state.user);
@@ -11,7 +11,7 @@ export default function ListInbox() {
 
   useEffect(() => {
     (async () => {
-      const { data } = await supabase
+      const { data } = await supabase()
         .from('inbox')
         .select('id, created_at, user1 (id, name), user2 (id, name)')
         .or(`user1.eq.${user?.id},user2.eq.${user?.id}`);

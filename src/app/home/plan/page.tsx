@@ -1,23 +1,28 @@
 'use client';
 
-import { useState } from 'react';
-import Image from 'next/image';
-
-// COMPONENTS
-import Card from 'components/card';
-
-// ICONS
-import { FiSearch } from 'react-icons/fi';
-import { IoIosArrowDown } from 'react-icons/io';
-import Filter from 'components/filter';
+import Price from 'components/subscription/Price';
+import { useEffect } from 'react';
+import {
+  getCustomer,
+  getProduct,
+  getSubscription,
+} from '../../../stripe/stripe';
 
 const Clients = () => {
-  const [isCountryFilter, setIsCountryFilter] = useState(false);
-  const [isIndustryFilter, setIsIndustryOpen] = useState(false);
-  const [isBusinessFilter, setIsBusinessOpen] = useState(false);
+  useEffect(() => {
+    (async () => {
+      const res = await getSubscription('sub_1PEXdiP37UrN6FWuRs3TeXxZ');
+      const parsedRes = JSON.parse(res);
+      console.log(parsedRes, 'parsedRes');
+      const resProduct = await getProduct(parsedRes.plan.product as string);
+      console.log(JSON.parse(resProduct));
+      const resCustomer = await getCustomer(parsedRes.customer as string);
+      console.log(JSON.parse(resCustomer), 'resCustomer');
+    })();
+  }, []);
   return (
     <div>
-      <Card extra="mt-3 h-fit p-8 gap-6"></Card>
+      <Price />
     </div>
   );
 };

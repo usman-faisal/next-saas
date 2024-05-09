@@ -1,8 +1,8 @@
-import supabase from 'supabase';
+import supabase from '../supabase/supabaseClient';
 import { User, UserForm } from 'types/interfaces';
 
 export const createForm = async (data: UserForm, userId: string) => {
-  return await supabase
+  return await supabase()
     .from('userForm')
     .insert({
       ...data,
@@ -14,7 +14,7 @@ export const createForm = async (data: UserForm, userId: string) => {
 
 export const updateForm = async (data: UserForm, userId: string) => {
   console.log(data);
-  return await supabase
+  return await supabase()
     .from('userForm')
     .update({
       institution: data.institution,

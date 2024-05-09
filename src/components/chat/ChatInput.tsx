@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import useAuthStore from 'store/authStore';
 import useChatStore from 'store/chatStore';
-import supabase from 'supabase';
+import supabase from '../../supabase/supabaseClient';
 
 const ChatInput = () => {
   const chatStore = useChatStore();
@@ -17,7 +17,7 @@ const ChatInput = () => {
         inbox: chatStore.activeInbox,
         id: Math.floor(Math.random() * 1000),
       });
-      await supabase.from('messages').insert({
+      await supabase().from('messages').insert({
         content: message,
         sender: user.id,
         created_at: new Date().toISOString(),
