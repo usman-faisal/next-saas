@@ -1,29 +1,27 @@
-import { type User } from '@supabase/supabase-js';
 import supabase from 'supabase';
 import { UserForm } from 'types/interfaces';
-import { Profile } from 'types/types';
 import { create } from 'zustand';
 
 interface FormStore {
-  userForms: UserForm[];
+  userForm: UserForm;
+  setForm: (form: UserForm) => void;
+  getForm: (userId: string) => Promise<UserForm>;
 }
 
 const useFormStore = create<FormStore>((set) => ({
-  userForms: [],
-  setForms: (userForms: UserForm[]) => set({ userForms }),
-  getForms: async (userId: string) => {
+  userForm: null,
+  setForm: (form) => set({ userForm: form }),
+  getForm: async (userId) => {
     const { data, error } = await supabase
       .from('userForm')
       .select('*')
       .eq('user', userId);
-    if (data) {
-      set((state) => ({ userForms: data }));
-      return data;
+    if (error) {
+      console.error(error);
+      return null;
     }
-    return null;
-  },
-  addForm: (form: UserForm) => {
-    set((state) => ({ userForms: [...state.userForms, form] }));
+    useFormStore.getState().setForm(data[0]);
+    return data[0];
   },
 }));
 

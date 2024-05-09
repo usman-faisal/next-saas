@@ -2,15 +2,24 @@ import Image from 'next/image';
 import React, { Fragment, useEffect, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import InputField from 'components/fields/InputField';
+import { UserForm } from 'types/interfaces';
+import useFormStore from 'store/formStore';
 
 interface FormModal {
   open: boolean;
   setOpen: any;
   cancelButtonRef: any;
   onFormSubmit: (formState: any) => {};
+  form: UserForm;
 }
 
-const FormModal: React.FC<FormModal> = ({ open, setOpen, cancelButtonRef, onFormSubmit }) => {
+const FormModal: React.FC<FormModal> = ({
+  open,
+  setOpen,
+  cancelButtonRef,
+  onFormSubmit,
+}) => {
+  const form = useFormStore().userForm;
   const [formData, setFormData] = useState({
     institution: '',
     location: '',
@@ -54,8 +63,15 @@ const FormModal: React.FC<FormModal> = ({ open, setOpen, cancelButtonRef, onForm
     return valid;
   };
   useEffect(() => {
-    console.log(formErrors);
-  }, [formErrors]);
+    if (form) {
+      setFormData({
+        institution: form.institution,
+        location: form.location,
+        specialty: form.specialty,
+        year: form.year,
+      });
+    }
+  }, [form]);
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -99,6 +115,7 @@ const FormModal: React.FC<FormModal> = ({ open, setOpen, cancelButtonRef, onForm
                       name="institution"
                       placeholder="Enter your institution"
                       label="Institution"
+                      value={formData.institution}
                       onChange={handleInputChange}
                       state={formErrors.institution ? 'error' : ''}
                     />
@@ -109,6 +126,7 @@ const FormModal: React.FC<FormModal> = ({ open, setOpen, cancelButtonRef, onForm
                       label="Location"
                       type="text"
                       name="location"
+                      value={formData.location}
                       placeholder="Enter your location"
                       onChange={handleInputChange}
                       state={formErrors.location ? 'error' : ''}
@@ -120,6 +138,7 @@ const FormModal: React.FC<FormModal> = ({ open, setOpen, cancelButtonRef, onForm
                       label="Specialty"
                       type="text"
                       name="specialty"
+                      value={formData.specialty}
                       placeholder="Enter your specialty"
                       onChange={handleInputChange}
                       state={formErrors.specialty ? 'error' : ''}
@@ -131,6 +150,7 @@ const FormModal: React.FC<FormModal> = ({ open, setOpen, cancelButtonRef, onForm
                       label="Year Of Education"
                       type="text"
                       name="year"
+                      value={formData.year}
                       placeholder="Enter your year of education"
                       onChange={handleInputChange}
                       state={formErrors.year ? 'error' : ''}

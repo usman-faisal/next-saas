@@ -8,7 +8,7 @@ import Card from 'components/card';
 // ICONS
 import FormModal from 'components/modal/FormModal';
 import FormCard from 'components/card/FormCard';
-import { createForm } from 'supabase/dbFunctions';
+import { createForm, updateForm } from 'supabase/dbFunctions';
 import { UserForm } from 'types/interfaces';
 import useAuthStore from 'store/authStore';
 import useFormStore from 'store/formStore';
@@ -16,31 +16,52 @@ import useFormStore from 'store/formStore';
 const Clients = () => {
   const authStore = useAuthStore();
   const formStore = useFormStore();
-  const [forms, setForms] = useState([]);
+  const [form, setForm] = useState<UserForm | null>(null);
   const [open, setOpen] = useState(false);
   const cancelButtonRef = useRef(null);
 
   const onFormSubmit = async (formData: UserForm) => {
     const user = authStore.user;
-    const { error, data } = await createForm(formData, user);
-    formStore.addForm(data[0]);
-    if (error) {
-      alert('Failed to submit form');
+    if (form) {
+      const { error, data } = await updateForm(
+        { ...formData, id: formStore.userForm.id },
+        user.id,
+      );
+      if (error) {
+        alert('Failed to update form');
+        return;
+      }
+      formStore.setForm(data[0]);
+      setForm(data[0]);
+      setOpen(false);
+      return;
     }
+    const { error, data } = await createForm(formData, user.id);
+    if (error) {
+      console.log(error);
+      alert('Failed to submit form');
+      return;
+    }
+    formStore.setForm(data[0]);
+    setForm(data[0]);
     setOpen(false);
   };
   useEffect(() => {
-    const fetchForms = async () => {
-      if (formStore.userForms.length === 0) {
-        const forms = await formStore.getForms(authStore.user.id);
-        setForms(forms);
-      } else setForms(formStore.userForms);
-    };
-    fetchForms();
+    (async () => {
+      const user = authStore.user;
+      const data = await formStore.getForm(user.id);
+      if (!data) {
+        console.error("Couldn't fetch forms");
+        return;
+      }
+      setForm(data);
+    })();
   }, []);
   useEffect(() => {
-    if (formStore.userForms?.length > 0) setForms(formStore.userForms);
-  }, [formStore.userForms]);
+    if (form) {
+      formStore.setForm(form);
+    }
+  }, [formStore.userForm]);
 
   return (
     <div>
@@ -52,15 +73,14 @@ const Clients = () => {
             className="linear w-fit rounded-xl bg-bluePrimary px-5 py-3 text-base font-medium text-white transition duration-200 hover:bg-brand-600 active:bg-brand-700 dark:bg-brand-400 dark:text-white dark:hover:bg-brand-300 dark:active:bg-brand-200"
             onClick={() => setOpen(true)}
           >
-            Add New Form
+            {form ? 'Edit Form' : 'Create Form'}
           </button>
         </div>
-        {forms.map((form, i) => (
-          <FormCard data={form} key={i} />
-        ))}
+        {form && <FormCard data={form} />}
       </Card>
       <FormModal
         open={open}
+        form={form}
         setOpen={setOpen}
         cancelButtonRef={cancelButtonRef}
         onFormSubmit={onFormSubmit}
