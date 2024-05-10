@@ -33,7 +33,7 @@ const ChatInput = () => {
         type="text"
         disabled={chatStore.activeInbox ? false : true}
         placeholder="Type a message..."
-        className="w-full rounded-md border border-gray-400 p-2 focus:border-blue-500 focus:outline-none"
+        className="w-full rounded-md border border-gray-400 dark:bg-navy-700 p-2 focus:border-blue-500 focus:outline-none"
         value={message}
         onChange={(e) => setMessage(e.target.value)}
       />

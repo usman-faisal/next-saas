@@ -35,7 +35,10 @@ export default function Checkout({ priceId }: { priceId: string }) {
   };
 
   return (
-    <button className="flex w-full items-center gap-2" onClick={handleCheckout}>
+    <button
+      className="linear w-full rounded-xl bg-brand-400 px-5 py-3 text-base font-medium text-white transition duration-200 hover:bg-brand-300 active:bg-brand-700 dark:bg-brand-400 dark:text-white dark:hover:bg-brand-300 dark:active:bg-brand-200"
+      onClick={handleCheckout}
+    >
       Getting Started{' '}
     </button>
   );

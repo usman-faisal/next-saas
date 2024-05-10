@@ -49,7 +49,7 @@ export default function ListMessages() {
     return (
       <div className="h-fit overflow-y-auto p-4 pb-36">
         <p
-          className="text-center text-2xl text-gray-900
+          className="text-center text-2xl text-gray-900 dark:text-gray-600
         "
         >
           Select a chat to start messaging

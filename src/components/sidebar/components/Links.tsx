@@ -37,7 +37,7 @@ export const SidebarLinks = (props: { routes: RoutesType[] }): JSX.Element => {
                 <span
                   className={`${
                     activeRoute(route.path) === true
-                      ? 'font-bold text-bluePrimary dark:text-white'
+                      ? 'font-bold text-brand-400 dark:text-white'
                       : 'font-medium text-gray-600'
                   }`}
                 >
@@ -54,7 +54,7 @@ export const SidebarLinks = (props: { routes: RoutesType[] }): JSX.Element => {
                 </p>
               </li>
               {activeRoute(route.path) ? (
-                <div className="absolute right-0 top-px h-9 w-1 rounded-lg bg-bluePrimary dark:bg-bluePrimary" />
+                <div className="absolute right-0 top-px h-9 w-1 rounded-lg bg-brand-400 dark:bg-brand-400" />
               ) : null}
             </div>
           </NavLink>

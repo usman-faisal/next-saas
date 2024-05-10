@@ -8,7 +8,7 @@ const ChatHeader = () => {
     (inbox) => inbox.id === chatStore.activeInbox,
   );
   return (
-    <header className="bg-white p-4 text-gray-700">
+    <header className="bg-white p-4 text-gray-700 dark:!bg-navy-800">
       <h1 className="text-2xl font-semibold">
         {activeInbox?.user1.id === user?.id
           ? activeInbox?.user2.name
