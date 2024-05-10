@@ -2,7 +2,7 @@ import Stripe from 'stripe';
 import { headers } from 'next/headers';
 import { buffer } from 'node:stream/consumers';
 import supabaseAdmin from '../../../../supabase/supabaseAdmin';
-import { NextResponse as Response } from 'next/server';
+import { NextRequest, NextResponse as Response } from 'next/server';
 
 const endpointSecret = process.env.STRIPE_ENDPOINT_SECRET!;
 
@@ -14,8 +14,8 @@ export const config = {
   },
 };
 
-export async function POST(req: any) {
-  const rawBody = await buffer(req.body);
+export async function POST(req: NextRequest) {
+  const rawBody = await req.text();
   try {
     const sig = headers().get('stripe-signature');
     let event;
