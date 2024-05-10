@@ -12,6 +12,7 @@ import { createForm, updateForm } from 'supabase/dbFunctions';
 import { UserForm } from 'types/interfaces';
 import useAuthStore from 'store/authStore';
 import useFormStore from 'store/formStore';
+import { errorToast, succesToast } from 'utils/toast';
 
 const Clients = () => {
   const authStore = useAuthStore();
@@ -28,11 +29,12 @@ const Clients = () => {
         user.id,
       );
       if (error) {
-        alert('Failed to update form');
+        errorToast('Failed to update form');
         return;
       }
       formStore.setForm(data[0]);
       setForm(data[0]);
+      succesToast('Form Updated Successfully');
       setOpen(false);
       return;
     }

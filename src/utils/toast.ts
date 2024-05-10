@@ -8,7 +8,7 @@ export const succesToast = (message: string) =>
       color: '#00a28e',
       backgroundColor: '#f0f9f8',
       marginTop: '16px',
-      marginRight: '30px',
+      marginRight: '20px',
       minWidth: '150px',
     },
     iconTheme: {
@@ -25,7 +25,7 @@ export const errorToast = (message: string) =>
       color: '#ff4c4c',
       backgroundColor: '#fff6f6',
       marginTop: '16px',
-      marginRight: '30px',
+      marginRight: '20px',
       minWidth: '150px',
     },
     iconTheme: {
