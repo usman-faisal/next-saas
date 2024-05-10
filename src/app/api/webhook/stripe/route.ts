@@ -12,11 +12,15 @@ export async function POST(req: any) {
   const rawBody = await buffer(req.body);
   try {
     const sig = headers().get('stripe-signature');
+    return Response.json({ rawBody, sig });
     let event;
     try {
       event = stripe.webhooks.constructEvent(rawBody, sig!, endpointSecret);
     } catch (err: any) {
-      return Response.json({ error: `Webhook Error ${err?.message!} ` });
+      return Response.json(
+        { error: `Webhook Error ${err?.message!} ` },
+        { status: 500 },
+      );
     }
 
     switch (event.type) {
