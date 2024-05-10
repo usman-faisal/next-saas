@@ -8,12 +8,6 @@ const endpointSecret = process.env.STRIPE_ENDPOINT_SECRET!;
 
 const stripe = new Stripe(process.env.STRIPE_SK!);
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
-
 export async function POST(req: NextRequest) {
   const rawBody = await req.text();
   try {
