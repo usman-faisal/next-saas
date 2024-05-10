@@ -29,6 +29,7 @@ export default function Admin({ children }: { children: React.ReactNode }) {
       const user = await authStore.getUser();
       setUser(user);
       setLoading(false);
+      return user;
     } catch (e) {
       console.log(e);
     }
@@ -36,7 +37,10 @@ export default function Admin({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     (async () => {
-      await getCurrentUser();
+      const user = await getCurrentUser();
+      if (!user) {
+        router.push('/auth/sign-in');
+      }
       const userPlan = await authStore.getUserPlan();
 
       setUserPlan(userPlan);
