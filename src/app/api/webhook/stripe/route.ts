@@ -25,8 +25,6 @@ export async function POST(req: any) {
     switch (event.type) {
       case 'invoice.payment_succeeded':
         const result = event.data.object;
-        return Response.json({ result });
-        console.log(result, 'result');
         const end_at = new Date(
           result.lines.data[0].period.end * 1000,
         ).toISOString();
