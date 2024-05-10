@@ -8,6 +8,7 @@ import 'styles/MiniCalendar.css';
 import 'styles/index.css';
 
 import dynamic from 'next/dynamic';
+import { Toaster } from 'react-hot-toast';
 
 const _NoSSR = ({ children }) => <React.Fragment>{children}</React.Fragment>;
 
@@ -17,5 +18,10 @@ const NoSSR = dynamic(() => Promise.resolve(_NoSSR), {
 
 export default function AppWrappers({ children }: { children: ReactNode }) {
   // @ts-expect-error
-  return <NoSSR>{children}</NoSSR>;
+  return (
+    <NoSSR>
+      {children}
+      <Toaster position="top-right" reverseOrder={false} />
+    </NoSSR>
+  );
 }

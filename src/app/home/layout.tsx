@@ -38,7 +38,11 @@ export default function Admin({ children }: { children: React.ReactNode }) {
     try {
       const plan = await authStore.getUserPlan();
       setUserPlan(plan);
-      if (!plan) {
+      if (
+        !plan &&
+        pathname !== '/home/plan' &&
+        pathname !== '/home/dashboard'
+      ) {
         router.push('/home/plan');
       }
     } catch (e) {
@@ -57,8 +61,7 @@ export default function Admin({ children }: { children: React.ReactNode }) {
   if (loading) return <p>Loading</p>;
   if (!user) return <p>Not authorized</p>;
   return (
-    user &&
-    userPlan && (
+    user && (
       <div className="flex h-full w-full bg-background-100 dark:bg-background-900">
         <Sidebar
           routes={routes}
@@ -67,35 +70,41 @@ export default function Admin({ children }: { children: React.ReactNode }) {
           variant="admin"
         />
         {/* Navbar & Main Content */}
-        <div className="h-screen w-full font-dm dark:bg-navy-900">
-          {/* Main Content */}
-          <main
-            className={`mx-2.5  flex-none transition-all dark:bg-navy-900 
+        {!userPlan &&
+        pathname !== '/home/plan' &&
+        pathname !== '/home/dashboard' ? (
+          <div></div>
+        ) : (
+          <div className="h-screen w-full font-dm dark:bg-navy-900">
+            {/* Main Content */}
+            <main
+              className={`mx-2.5  flex-none transition-all dark:bg-navy-900 
               md:pr-2 xl:ml-[323px]`}
-          >
-            {/* Routes */}
-            <div>
-              <Navbar
-                onOpenSidenav={() => setOpen(!open)}
-                brandText={getActiveRoute(routes, pathname)}
-                secondary={getActiveNavbar(routes, pathname)}
-                user={user}
-              />
-              <div
-                className={`mx-auto p-2 !pt-[10px] md:p-2 ${
-                  pathname !== '/home/chat' && 'min-h-screen'
-                }`}
-              >
-                {children}
-              </div>
-              {pathname !== '/home/chat' && (
-                <div className="p-3">
-                  <Footer />
+            >
+              {/* Routes */}
+              <div>
+                <Navbar
+                  onOpenSidenav={() => setOpen(!open)}
+                  brandText={getActiveRoute(routes, pathname)}
+                  secondary={getActiveNavbar(routes, pathname)}
+                  user={user}
+                />
+                <div
+                  className={`mx-auto p-2 !pt-[10px] md:p-2 ${
+                    pathname !== '/home/chat' && 'min-h-screen'
+                  }`}
+                >
+                  {children}
                 </div>
-              )}
-            </div>
-          </main>
-        </div>
+                {pathname !== '/home/chat' && (
+                  <div className="p-3">
+                    <Footer />
+                  </div>
+                )}
+              </div>
+            </main>
+          </div>
+        )}
       </div>
     )
   );

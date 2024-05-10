@@ -1,15 +1,41 @@
 'use client';
 
 import Price from 'components/subscription/Price';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
   getCustomer,
   getProduct,
   getSubscription,
 } from '../../../stripe/stripe';
 import Card from 'components/card';
+import useAuthStore from 'store/authStore';
+import { usePathname, useRouter } from 'next/navigation';
 
 const Clients = () => {
+  const pathname = usePathname();
+  const router = useRouter();
+  const [userPlan, setUserPlan] = useState(null);
+
+  const getUserPlan = async () => {
+    try {
+      const plan = await useAuthStore.getUserPlan();
+      setUserPlan(plan);
+      if (
+        !plan &&
+        pathname !== '/home/plan' &&
+        pathname !== '/home/dashboard'
+      ) {
+        router.push('/home/plan');
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    getUserPlan();
+  }, []);
+
   useEffect(() => {
     (async () => {
       const res = await getSubscription('sub_1PEXdiP37UrN6FWuRs3TeXxZ');
@@ -21,6 +47,7 @@ const Clients = () => {
       console.log(JSON.parse(resCustomer), 'resCustomer');
     })();
   }, []);
+
   return (
     <div className=" mt-4">
       <Card extra=" p-6">
@@ -29,8 +56,8 @@ const Clients = () => {
             Current Plan
           </h3>
 
-          <button className="linear w-fit rounded-xl border-2 border-brand-400 px-10 py-2 mr-6 text-base font-medium text-brand-400 transition duration-200 dark:border-white dark:text-white">
-            Basic
+          <button className="linear mr-6 w-fit rounded-xl border-2 border-brand-400 px-10 py-2 text-base font-medium text-brand-400 transition duration-200 dark:border-white dark:text-white">
+            {userPlan ? userPlan : 'None'}
           </button>
         </div>
       </Card>
