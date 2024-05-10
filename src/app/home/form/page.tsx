@@ -67,7 +67,7 @@ const Clients = () => {
     <div>
       <Card extra="mt-3 h-fit p-8 gap-6">
         <div className=" flex items-center justify-between ">
-          <h3 className=" text-2xl font-semibold">Your Forms</h3>
+          <h3 className=" text-2xl font-semibold">Your Form</h3>
 
           <button
             className="linear w-fit rounded-xl bg-bluePrimary px-5 py-3 text-base font-medium text-white transition duration-200 hover:bg-brand-600 active:bg-brand-700 dark:bg-brand-400 dark:text-white dark:hover:bg-brand-300 dark:active:bg-brand-200"

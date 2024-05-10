@@ -5,7 +5,7 @@ import React from 'react';
 // Icon Imports
 import { MdHome, MdOutlineUploadFile, MdHistory } from 'react-icons/md';
 import { BiSolidReport } from 'react-icons/bi';
-import { FaPeopleGroup, FaWpforms } from 'react-icons/fa6';
+import { FaPeopleGroup, FaWpforms, FaPeopleArrows } from 'react-icons/fa6';
 import { TbBusinessplan } from 'react-icons/tb';
 import { IoChatboxEllipsesOutline } from 'react-icons/io5';
 
@@ -17,12 +17,6 @@ const routes = [
     icon: <MdHome className="h-6 w-6" />,
   },
   {
-    name: 'Chat',
-    layout: '/home',
-    path: 'chat',
-    icon: <IoChatboxEllipsesOutline className="h-6 w-6" />,
-  },
-  {
     name: 'Plan',
     layout: '/home',
     path: 'plan',
@@ -30,10 +24,22 @@ const routes = [
     secondary: true,
   },
   {
+    name: 'Chat',
+    layout: '/home',
+    path: 'chat',
+    icon: <IoChatboxEllipsesOutline className="h-6 w-6" />,
+  },
+  {
     name: 'Form',
     layout: '/home',
     path: 'form',
     icon: <FaWpforms className="h-6 w-6" />,
+  },
+  {
+    name: 'Matches',
+    layout: '/home',
+    path: 'matches',
+    icon: <FaPeopleArrows className="h-6 w-6" />,
   },
 ];
 export default routes;

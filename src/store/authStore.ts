@@ -1,6 +1,6 @@
 import { type User } from '@supabase/supabase-js';
 import supabase from '../supabase/supabaseClient';
-import { Profile } from 'types/types';
+import { Profile } from 'types/interfaces';
 import { create } from 'zustand';
 import { getProduct, getSubscription } from '..//stripe/stripe';
 
@@ -24,7 +24,6 @@ const useAuthStore = create<AuthStore>((set) => ({
       .select('*')
       .eq('email', useAuthStore.getState().user?.email ?? '')
       .single();
-    if (error) throw error;
     if (data?.subscription_id) {
       if (data.end_at && new Date(data.end_at) < new Date()) {
         set({ userPlan: null });
@@ -53,7 +52,6 @@ const useAuthStore = create<AuthStore>((set) => ({
       .select('*, subscriptions(*)')
       .eq('id', useAuthStore.getState().user?.id ?? '')
       .single();
-    if (error) throw error;
     if (data) set({ userProfile: data });
     return data;
   },

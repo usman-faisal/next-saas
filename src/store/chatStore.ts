@@ -1,4 +1,4 @@
-import { Message, Inbox } from 'types/types';
+import { Message, Inbox } from 'types/interfaces';
 import { create } from 'zustand';
 
 interface ChatStoreState {

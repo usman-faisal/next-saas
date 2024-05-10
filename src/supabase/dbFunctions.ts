@@ -1,5 +1,6 @@
+import { Inbox } from 'types/interfaces';
 import supabase from '../supabase/supabaseClient';
-import { User, UserForm } from 'types/interfaces';
+import { Match, User, UserForm } from 'types/interfaces';
 
 export const createForm = async (data: UserForm, userId: string) => {
   return await supabase()
@@ -24,5 +25,14 @@ export const updateForm = async (data: UserForm, userId: string) => {
       user: userId,
     })
     .eq('id', data.id)
+    .select();
+};
+
+export const createInbox = async (data: Inbox) => {
+  return await supabase()
+    .from('inbox')
+    .insert({
+      ...data,
+    })
     .select();
 };

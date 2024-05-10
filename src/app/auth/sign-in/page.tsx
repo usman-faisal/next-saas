@@ -28,7 +28,6 @@ function SignInDefault() {
     const user = await signInUser(email, password);
     await authStore.getUser();
     const plan = await authStore.getUserPlan();
-    alert(plan);
     return user;
   };
 
