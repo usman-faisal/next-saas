@@ -1,10 +1,5 @@
 'use client';
-import ProjectCarbonOffset from 'components/admin/default/ProjectCarbonOffset';
-import MonthlyInitiatives from 'components/admin/default/MonthlyInitiatives';
-import StrategicObjectives from 'components/admin/default/StrategicObjectives';
-import OverallPerformance from 'components/admin/default/OverallPerformance';
 import Card from 'components/card';
-import { getUser } from 'utils/auth';
 import useAuthStore from 'store/authStore';
 import React, { useEffect, useState } from 'react';
 
