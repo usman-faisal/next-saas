@@ -38,7 +38,7 @@ function SignUp() {
       const { email, password, rePassword, ...meta } = formData;
       const { error } = await signupUser(email, password, meta);
 
-      if (!error) router.push('/home/dashboard');
+      if (!error) router.push('/auth/confirm-email');
       else {
         setError(error.message);
       }
