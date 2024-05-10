@@ -34,26 +34,12 @@ export default function Admin({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const getUserPlan = async () => {
-    try {
-      const plan = await authStore.getUserPlan();
-      setUserPlan(plan);
-      if (
-        !plan &&
-        pathname !== '/home/plan' &&
-        pathname !== '/home/dashboard'
-      ) {
-        router.push('/home/plan');
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
   useEffect(() => {
     (async () => {
       await getCurrentUser();
-      await authStore.getUserPlan();
+      const userPlan = await authStore.getUserPlan();
+
+      setUserPlan(userPlan);
     })();
   }, []);
 

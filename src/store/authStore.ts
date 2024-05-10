@@ -17,7 +17,7 @@ interface AuthStore {
 const useAuthStore = create<AuthStore>((set) => ({
   user: null,
   userProfile: null,
-  userPlan: 'Basic',
+  userPlan: null,
   getUserPlan: async () => {
     const { data, error } = await supabase()
       .from('subscriptions')
