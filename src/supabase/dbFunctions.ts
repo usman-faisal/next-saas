@@ -28,7 +28,7 @@ export const updateForm = async (data: UserForm, userId: string) => {
     .select();
 };
 
-export const createInbox = async (data: Inbox) => {
+export const createInbox = async (data: { user1: string; user2: string }) => {
   return await supabase()
     .from('inbox')
     .insert({

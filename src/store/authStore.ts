@@ -5,7 +5,7 @@ import { create } from 'zustand';
 import { getProduct, getSubscription } from '..//stripe/stripe';
 
 interface AuthStore {
-  user?: User | null;
+  user: User | null;
   userProfile: Profile;
   userPlan: 'Basic' | 'Premium' | 'Enterprise' | null;
   getUser: () => Promise<User | null>;

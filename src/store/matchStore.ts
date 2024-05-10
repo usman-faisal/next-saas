@@ -6,6 +6,7 @@ interface MatchStore {
   matches: Match[];
   setMatches: (matches: Match[]) => void;
   getMatches: (userId: string) => Promise<Match[]>;
+  deleteMatch: (id: number) => Promise<Match[]>;
 }
 
 const useMatchStore = create<MatchStore>((set) => ({
@@ -16,12 +17,13 @@ const useMatchStore = create<MatchStore>((set) => ({
       .from('userMatches')
       .select('id, user1 (id, name), user2 (id, name), fields')
       .or(`user1.eq.${userId},user2.eq.${userId}`);
+    console.log(data, 'data');
     if (error) {
       console.error(error);
       return null;
     }
-    set({ matches: data });
-    return data
+    set({ matches: data as unknown as Match[] });
+    return data as any;
   },
   deleteMatch: async (id: number) => {
     const { data, error } = await supabase()
@@ -32,7 +34,7 @@ const useMatchStore = create<MatchStore>((set) => ({
       const matches = useMatchStore.getState().matches;
       const newMatches = matches.filter((match) => match.id !== id);
       set({ matches: newMatches });
-      return matches
+      return matches;
     }
   },
 }));

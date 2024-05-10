@@ -36,7 +36,7 @@ const Matches = () => {
     if (match.user1.id != authStore.user.id) return match.user1;
     if (match.user2.id != authStore.user.id) return match.user2;
   };
-
+  console.log(matches, 'matches');
   return (
     <Card extra="mt-4 h-fit p-8 gap-6">
       <div className=" flex items-center justify-between ">

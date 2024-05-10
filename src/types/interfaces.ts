@@ -11,7 +11,6 @@ export interface AppNotification {
   isRead: boolean;
 }
 
-
 export interface Chat {
   id: string;
   message: string;
@@ -44,8 +43,8 @@ export interface Profile {
 export interface Inbox {
   id?: number;
   created_at?: string;
-  user1: Profile | string;
-  user2: Profile | string;
+  user1: Profile;
+  user2: Profile;
 }
 export interface Message {
   id: number;
@@ -54,5 +53,3 @@ export interface Message {
   sender: string;
   content: string;
 }
-
-
