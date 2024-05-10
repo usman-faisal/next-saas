@@ -1,6 +1,7 @@
 'use client';
 import Card from 'components/card';
 import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 import { FaTimes } from 'react-icons/fa';
 import { FaCheck } from 'react-icons/fa6';
 import useAuthStore from 'store/authStore';
@@ -28,9 +29,15 @@ const Matches = () => {
       user2: match.user2.id,
     });
     chatStore.addInbox(data[0]);
+    const newMatches = matches.filter((m) => m.id !== match.id);
+    setMatches(newMatches);
+    toast.success('User has been added to your inbox');
   };
   const onReject = async (matchId: number) => {
     await matchStore.deleteMatch(matchId);
+    const newMatches = matches.filter((m) => m.id !== matchId);
+    setMatches(newMatches);
+    toast.success('User has been rejected');
   };
   const getMatchedUser = (match: Match) => {
     if (match.user1.id != authStore.user.id) return match.user1;
