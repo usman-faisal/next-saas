@@ -12,6 +12,7 @@ export async function POST(req: any) {
   const rawBody = req.body;
   try {
     const sig = headers().get('stripe-signature');
+    return Response.json({ rawBody, sig });
     let event;
     try {
       event = stripe.webhooks.constructEvent(rawBody, sig!, endpointSecret);
