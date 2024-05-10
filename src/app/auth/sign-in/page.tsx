@@ -26,8 +26,6 @@ function SignInDefault() {
 
   const loginUser = async () => {
     const user = await signInUser(email, password);
-    await authStore.getUser();
-    const plan = await authStore.getUserPlan();
     return user;
   };
 

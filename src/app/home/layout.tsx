@@ -52,6 +52,7 @@ export default function Admin({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     getCurrentUser();
+    authStore.getUserPlan();
   }, []);
 
   useEffect(() => {

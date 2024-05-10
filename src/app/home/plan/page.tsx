@@ -12,29 +12,7 @@ import useAuthStore from 'store/authStore';
 import { usePathname, useRouter } from 'next/navigation';
 
 const Clients = () => {
-  const pathname = usePathname();
-  const router = useRouter();
-  const [userPlan, setUserPlan] = useState(null);
-
-  const getUserPlan = async () => {
-    try {
-      const plan = await useAuthStore.getUserPlan();
-      setUserPlan(plan);
-      if (
-        !plan &&
-        pathname !== '/home/plan' &&
-        pathname !== '/home/dashboard'
-      ) {
-        router.push('/home/plan');
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  useEffect(() => {
-    getUserPlan();
-  }, []);
+  const authStore = useAuthStore();
 
   useEffect(() => {
     (async () => {
@@ -57,7 +35,7 @@ const Clients = () => {
           </h3>
 
           <button className="linear mr-6 w-fit rounded-xl border-2 border-brand-400 px-10 py-2 text-base font-medium text-brand-400 transition duration-200 dark:border-white dark:text-white">
-            {userPlan ? userPlan : 'None'}
+            {authStore?.userPlan || 'None'}
           </button>
         </div>
       </Card>
