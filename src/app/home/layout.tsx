@@ -51,13 +51,11 @@ export default function Admin({ children }: { children: React.ReactNode }) {
   };
 
   useEffect(() => {
-    getCurrentUser();
-    authStore.getUserPlan();
+    (async () => {
+      await getCurrentUser();
+      await authStore.getUserPlan();
+    })();
   }, []);
-
-  useEffect(() => {
-    getUserPlan();
-  }, [pathname]);
 
   if (loading) return <p>Loading</p>;
   if (!user) return <p>Not authorized</p>;
