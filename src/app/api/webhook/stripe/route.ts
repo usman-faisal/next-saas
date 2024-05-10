@@ -2,6 +2,7 @@ import Stripe from 'stripe';
 import { headers } from 'next/headers';
 import { buffer } from 'node:stream/consumers';
 import supabaseAdmin from '../../../../supabase/supabaseAdmin';
+import { NextResponse as Response } from 'next/server';
 
 const endpointSecret = process.env.STRIPE_ENDPOINT_SECRET!;
 

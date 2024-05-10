@@ -28,7 +28,10 @@ export default function ListInbox() {
   return (
     <div className="mb-9 overflow-y-auto p-3 pb-20">
       {inboxes.map((inbox) => (
-        <div className="my-2 flex cursor-pointer items-center gap-3 rounded-md px-4 py-4 hover:bg-gray-100 bg-background-100 dark:bg-navy-800 dark:hover:bg-navy-900">
+        <div
+          key={inbox.id}
+          className="my-2 flex cursor-pointer items-center gap-3 rounded-md bg-background-100 px-4 py-4 hover:bg-gray-100 dark:bg-navy-800 dark:hover:bg-navy-900"
+        >
           <div className="mr-3 h-8 w-8 rounded-full bg-gray-300">
             <img
               src="https://placehold.co/200x/ffa8e4/ffffff.svg?text=ʕ•́ᴥ•̀ʔ&font=Lato"

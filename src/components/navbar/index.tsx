@@ -112,7 +112,7 @@ const Navbar = (props: {
               </p>
             </div>
             {[].map((notification) => (
-              <button className="flex w-full items-center">
+              <button key={notification} className="flex w-full items-center">
                 {'Notification'}
               </button>
             ))}
